@@ -19,7 +19,7 @@ describe('Todos Data', () => {
 
   it('should have specific todo texts', () => {
     const todoTexts = todos.map(todo => todo.text);
-    expect(todoTexts).toContain('Göra klart inlämning');
+    expect(todoTexts).toContain('Gör klart inlämning');
     expect(todoTexts).toContain('Lektion i skolan 9-16');
     expect(todoTexts).toContain('Övning 1');
     expect(todoTexts).toContain('Repetera lektionen');
