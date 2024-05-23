@@ -1,51 +1,89 @@
+// import Day from './Day';
+// import Item from './Item';
 
-import Day from './Day.jsx'
+// describe('Day Component', () => {
+//   const daysOfWeek = [
+//     'Söndag',
+//     'Måndag',
+//     'Tisdag',
+//     'Onsdag',
+//     'Torsdag',
+//     'Fredag',
+//     'Lördag'
+//   ];
 
+//   const testDay = {
+//     index: 1, // Måndag
+//     items: [
+//       { id: 1, text: 'Test item 1', done: false },
+//       { id: 2, text: 'Test item 2', done: true }
+//     ]
+//   };
+
+//   it('renders the day name correctly', () => {
+//     cy.mount(<Day day={testDay} />);
+//     cy.get('.day h2').should('contain', daysOfWeek[testDay.index]);
+//   });
+
+//   it('renders the items correctly', () => {
+//     cy.mount(<Day day={testDay} />);
+//     cy.get('.day').within(() => {
+//       cy.get(Item).should('have.length', testDay.items.length);
+//       testDay.items.forEach(item => {
+//         cy.contains(item.text).should('exist');
+//       });
+//     });
+//   });
+
+//   it('contains a button to add a new task', () => {
+//     cy.mount(<Day day={testDay} />);
+//     cy.get('.controls button').should('contain', 'Ny uppgift');
+//   });
+
+//   // Du kan lägga till fler tester här
+// });
+
+import Day from './Day';
+import Item from './Item';
 
 describe('Day Component', () => {
-    beforeEach(() => {
-        cy.visit('/');
+  const daysOfWeek = [
+    'Söndag',
+    'Måndag',
+    'Tisdag',
+    'Onsdag',
+    'Torsdag',
+    'Fredag',
+    'Lördag'
+  ];
+
+  const testDay = {
+    index: 1, // Måndag
+    items: [
+      { id: 1, text: 'Test item 1', done: false },
+      { id: 2, text: 'Test item 2', done: true }
+    ]
+  };
+
+  it('renders the day name correctly', () => {
+    cy.mount(<Day day={testDay} />);
+    cy.get('.day h2').should('contain', daysOfWeek[testDay.index]);
+  });
+
+  it('renders the items correctly', () => {
+    cy.mount(<Day day={testDay} />);
+    cy.get('.day').within(() => {
+      cy.get(Item).should('have.length', testDay.items.length);
+      testDay.items.forEach(item => {
+        cy.contains(item.text).should('exist');
+      });
     });
+  });
 
-    it('renders the day name correctly', () => {
-        const testDate = new Date(2024, 4, 21); // Adjust date as needed
+  it('contains a button to add a new task', () => {
+    cy.mount(<Day day={testDay} />);
+    cy.get('.controls button').should('contain', 'Ny uppgift');
+  });
 
-        cy.mount(<Day day={[]} date={testDate} />);
-
-        cy.contains('Tisdag'); // Adjust based on the date used
-    });
-
-    it('renders items correctly', () => {
-        const items = [
-            { id: 1, text: 'Item 1' },
-            { id: 2, text: 'Item 2' }
-        ];
-
-        const testDate = new Date(2024, 4, 21); // Adjust date as needed
-
-        cy.mount(<Day day={items} date={testDate} />);
-
-        cy.get('.day').within(() => {
-            cy.contains('Item 1');
-            cy.contains('Item 2');
-        });
-    });
-
-    it('has a button to add a new task', () => {
-        const testDate = new Date(2024, 4, 21); // Adjust date as needed
-
-        cy.mount(<Day day={[]} date={testDate} />);
-
-        cy.get('button').contains('Ny uppgift');
-    });
-
-    it('interacts with the new task button', () => {
-        const onClick = cy.stub();
-        const testDate = new Date(2024, 4, 21); // Adjust date as needed
-
-        cy.mount(<Day day={[]} date={testDate} onClick={onClick} />);
-
-        cy.get('button').contains('Ny uppgift').click();
-        cy.wrap(onClick).should('have.been.called');
-    });
+  // Du kan lägga till fler tester här
 });

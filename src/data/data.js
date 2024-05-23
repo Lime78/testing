@@ -10,4 +10,14 @@ const todos = [
 	{ id: 6, day: 'to', done: false, late: false, text: 'Distanslektion 9-16' },
 ]
 
-export { todos }
+const dayName = [
+	'måndag',
+	'tisdag',
+	'onsdag',
+	'torsdag',
+	'fredag',
+	'lördag',
+	'söndag',
+]
+
+export { todos, dayName }

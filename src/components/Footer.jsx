@@ -1,9 +1,19 @@
 // TODO: hämta dagens datum från store
-const Footer = () => (
-	<footer>
-		<p> Idag är det: ?????? </p>
-		<p> Studieguide | 2024 </p>
-	</footer>
-)
+import React from 'react';
 
-export default Footer
+const Footer = () => {
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('sv-SE', {
+    day: 'numeric',
+    month: 'long',
+  });
+
+  return (
+    <footer>
+      <p>Idag är det: {formattedDate}</p>
+      <p>Studieguide | 2024</p>
+    </footer>
+  );
+};
+
+export default Footer;

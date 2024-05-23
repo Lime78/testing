@@ -6,7 +6,7 @@ function splitTodosIntoDays(todos) {
 	return result;
 }
 
-export { splitTodosIntoDays }
+// export { splitTodosIntoDays }
 
 
 // Tips! Du kan få användning för funktioner som:
