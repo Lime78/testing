@@ -1,55 +1,51 @@
-// const Item = ({ item }) => {
-// 	let itemClass = ''
-// 	if( item.done ) itemClass += 'done'
-// 	if( item.late ) itemClass += 'due'
-
-// 	const handleChange = () => { /* TODO */ }
-
-// 	return (
-// 		<div className="item">
-// 			<input type="checkbox" checked={item.done} onChange={handleChange} />
-// 			<label className={itemClass} onClick={handleChange}>
-// 				{item.text}
-// 			</label>
-// 			{/* <span title="Snooza">💤</span> */}
-// 			<span title="Ändra">✍️</span>
-// 			<span title="Ta bort">🗑️</span>
-// 		</div>
-// 	)
-// }
-
-// export default Item
-
 import React, { useState } from 'react';
-import Item from './Item'; // adjust the import path as necessary
+import { useStore } from '../../data/store.js';
 
-const ItemList = () => {
-	const [items, setItems] = useState([
-		{ id: 1, text: 'Learn React', done: false, late: false },
-		{ id: 2, text: 'Build a project', done: false, late: true },
-		// Add more items as needed
-	]);
+const Item = ({ item }) => {
+  const { deleteTodo, editTodo } = useStore();
+  const [isEditing, setIsEditing] = useState(false);
+  const [newText, setNewText] = useState(item.text);
 
-	const handleEditItem = (updatedItem) => {
-		setItems(items.map(item => item.id === updatedItem.id ? updatedItem : item));
-	};
+  let itemClass = '';
+  if (item.done) itemClass += 'done';
+  if (item.late) itemClass += 'due';
 
-	const handleDeleteItem = (itemToDelete) => {
-		setItems(items.filter(item => item.id !== itemToDelete.id));
-	};
+  const handleChange = () => {
+  };
 
-	return (
-		<div>
-			{items.map(item => (
-				<Item
-					key={item.id}
-					item={item}
-					onEdit={handleEditItem}
-					onDelete={handleDeleteItem}
-				/>
-			))}
-		</div>
-	);
+  const handleDelete = () => {
+    deleteTodo(item.id);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    editTodo(item.id, newText);
+    setIsEditing(false);
+  };
+
+  const handleInputChange = (e) => {
+    setNewText(e.target.value);
+  };
+
+  return (
+    <div className="item">
+      <input type="checkbox" checked={item.done} onChange={handleChange} />
+      {isEditing ? (
+        <input type="text" value={newText} onChange={handleInputChange} onBlur={handleSave} />
+      ) : (
+        <label className={itemClass} onClick={handleChange}>
+          {item.text}
+        </label>
+      )}
+      {/* <span title="Snooza">💤</span> */}
+      <span title="Ändra" onClick={handleEdit}>✍️</span>
+      <span onClick={handleDelete} title="Ta bort">🗑️</span>
+    </div>
+  );
 };
 
-export default ItemList;
+export default Item;
+

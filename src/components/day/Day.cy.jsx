@@ -1,89 +1,29 @@
-// import Day from './Day';
-// import Item from './Item';
-
-// describe('Day Component', () => {
-//   const daysOfWeek = [
-//     'Söndag',
-//     'Måndag',
-//     'Tisdag',
-//     'Onsdag',
-//     'Torsdag',
-//     'Fredag',
-//     'Lördag'
-//   ];
-
-//   const testDay = {
-//     index: 1, // Måndag
-//     items: [
-//       { id: 1, text: 'Test item 1', done: false },
-//       { id: 2, text: 'Test item 2', done: true }
-//     ]
-//   };
-
-//   it('renders the day name correctly', () => {
-//     cy.mount(<Day day={testDay} />);
-//     cy.get('.day h2').should('contain', daysOfWeek[testDay.index]);
-//   });
-
-//   it('renders the items correctly', () => {
-//     cy.mount(<Day day={testDay} />);
-//     cy.get('.day').within(() => {
-//       cy.get(Item).should('have.length', testDay.items.length);
-//       testDay.items.forEach(item => {
-//         cy.contains(item.text).should('exist');
-//       });
-//     });
-//   });
-
-//   it('contains a button to add a new task', () => {
-//     cy.mount(<Day day={testDay} />);
-//     cy.get('.controls button').should('contain', 'Ny uppgift');
-//   });
-
-//   // Du kan lägga till fler tester här
-// });
-
 import Day from './Day';
-import Item from './Item';
 
 describe('Day Component', () => {
-  const daysOfWeek = [
-    'Söndag',
-    'Måndag',
-    'Tisdag',
-    'Onsdag',
-    'Torsdag',
-    'Fredag',
-    'Lördag'
-  ];
-
-  const testDay = {
-    index: 1, // Måndag
-    items: [
-      { id: 1, text: 'Test item 1', done: false },
-      { id: 2, text: 'Test item 2', done: true }
-    ]
-  };
-
-  it('renders the day name correctly', () => {
-    cy.mount(<Day day={testDay} />);
-    cy.get('.day h2').should('contain', daysOfWeek[testDay.index]);
+  it('renders correctly with initial state', () => {
+    // Setup with initial props
+    cy.mount(<Day dayName="Monday" items={[]} onAddTask={cy.stub().as('addTask')} />);
+    // Assert the initial state
+    cy.contains('h2', 'Monday'); // Check day name
+    cy.get('input').should('not.exist'); // Input should not be visible
+    cy.get('button').contains('Ny uppgift').should('be.visible');
   });
+});
 
-  it('renders the items correctly', () => {
-    cy.mount(<Day day={testDay} />);
-    cy.get('.day').within(() => {
-      cy.get(Item).should('have.length', testDay.items.length);
-      testDay.items.forEach(item => {
-        cy.contains(item.text).should('exist');
-      });
-    });
+
+it('allows adding a new task', () => {
+  cy.mount(<Day dayName="Tuesday" items={[]} onAddTask={cy.stub().as('addTask')} />);
+  cy.get('button').contains('Ny uppgift').click();
+  cy.get('input').should('be.visible').type('New Task');
+  cy.get('button').contains('Spara').click();
+
+  // Asserts
+  cy.get('@addTask').should('have.been.calledWith', {
+    day: 'Tuesday',
+    text: 'New Task',
+    done: false,
+    late: false
   });
-
-  it('contains a button to add a new task', () => {
-    cy.mount(<Day day={testDay} />);
-    cy.get('.controls button').should('contain', 'Ny uppgift');
-  });
-
-  // Du kan lägga till fler tester här
+  cy.get('input').should('not.exist'); // Input should be hidden again
 });

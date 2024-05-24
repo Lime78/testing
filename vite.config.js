@@ -4,10 +4,14 @@ import react from '@vitejs/plugin-react-swc'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: './',
   test: {
-	environment: 'jsdom',
-	globals: true,
-	// setupFiles: './tests/setup.js'
-  }
+    enviroment: 'jsdom',
+    globals: true,
+  },
+  baseUrl: './',
+  server: {
+    port: 1224,  // pick any port number
+    host: true   // this is the critical setting
+  },
+ 
 })

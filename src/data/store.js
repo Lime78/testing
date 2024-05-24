@@ -23,10 +23,29 @@ const useStore = create((set) => ({
     };
   }),
 
+  deleteTodo: (id) => set((state) => ({
+    todos: state.todos.filter((todo) => todo.id !== id)
+  })),
+
   resetTodos: () => set(() => ({ todos: [] })),
 
   // TODO: lägg till en funktion "setTodos" så att du kan ändra innehållet i store från dina testfiler
-  setTodos: (newTodos) => set(() => ({ todos: newTodos }))
+  setTodos: (newTodos) => set(() => ({ todos: newTodos })),
+
+  editTodo: (id, text) => set((state) => ({
+    todos: state.todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, text: text };
+      } else {
+        return todo;
+      }
+    })
+  })),
+
+  searchText: '',
+  setSearchText: (text) => set(() => ({ searchText: text })),
+
+  // searchTodo is no longer needed, since we'll handle it in the component
 }));
 
 export { useStore };
