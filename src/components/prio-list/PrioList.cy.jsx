@@ -1,35 +1,37 @@
-import { useStore } from '../../data/store';
+// import { useStore } from '../../data/store';
 import PrioList from './PrioList';
 import React from 'react';
 
-describe('PrioList Component', () => {
-    const todos = [
-      { id: 1, text: 'Task 1', done: false },
-      { id: 2, text: 'Task 2', done: true },
-      { id: 3, text: 'Task 3', done: false },
-    ];
-  
-    beforeEach(() => {
-      useStore.setState({
-        todos: todos,
-        searchText: '',
-        setSearchText: cy.stub().as('setSearchText'),
-      });
-  
-      cy.mount(<PrioList />);
-    });
-      
+describe('PrioList component with test data', () => {
 
-  it('should call setSearchText when input value changes', () => {
-    cy.get('input[type="search"]').type('Task 1').should('have.value', 'Task 1');
-    cy.get('@setSearchText').should('have.been.calledWith', 'Task 1');
+  const testTodos = [
+    { id: 1, text: 'Uppgift 1' },
+    { id: 2, text: 'Uppgift 2' },
+    { id: 3, text: 'Uppgift 3' }
+  ];
+
+  beforeEach(() => {
+    cy.mount(<PrioList />, {
+
+      props: { todos: testTodos }
+
+    });
+  });
+  it('should filter items correctly', () => {
+
+    cy.get('input[type="search"]').type('Övning 1');
+    cy.contains('Övning 1').should('be.visible');
+    cy.contains('Övning 2').should('not.exist'); 
+    cy.contains('Övning 3').should('not.exist');
   });
 
-    it('should render priority items based on filtered todos', () => {
-      cy.get('.prio-items').children().should('have.length', 2);
-    });
-  
+  it('should render correctly', () => {
+
+    cy.contains('Vad ska jag göra nu?').should('be.visible');
+    cy.get('input[type="search"]').should('be.visible');
   });
 
+
+});
 
   

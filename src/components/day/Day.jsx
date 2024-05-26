@@ -1,10 +1,6 @@
 import Item from "./Item";
 
-// OBS, det är tillåtet att lägga till flera props
-// När du testar, rendera komponenten med olika värden på props
-
-
-const Day = ({ day,dayName }) => {
+const Day = ({ day, dayName }) => {
 
 
     return (
@@ -22,3 +18,5 @@ const Day = ({ day,dayName }) => {
 
 export default Day;
 
+// OBS, det är tillåtet att lägga till flera props
+// När du testar, rendera komponenten med olika värden på props
